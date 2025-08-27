@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exclusive — E‑Commerce</title>
+  <!-- Icons -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkfTLB1Y6FZ3zVQ8Gv3W3GJ8dRHJ3N1GZq9Q0v0x7rZb6+0W2zj6u1v8g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root{
+      --bg:#0f0f10;
+      --card:#111214;
+      --muted:#7a7f85;
+      --text:#f8f9fb;
+      --accent:#ef4444; /* red */
+      --accent-2:#16a34a; /* green */
+      --ring: rgba(239, 68, 68, .35);
+      --surface:#0a0a0b;
+      --border:#1e1f22;
+      --chip:#1a1b1e;
+      --star:#f59e0b;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      background:linear-gradient(180deg, var(--bg), #0b0c0d 30%, #0b0c0d);
+      color:var(--text);
+      line-height:1.5;
+    }
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%;height:auto}
+    .container{max-width:1200px;margin-inline:auto;padding:0 20px}
+
+    /* Top bar */
+    .topbar{background:#101114;border-bottom:1px solid var(--border);font-size:.9rem;color:#b2b7be}
+    .topbar .row{display:flex;gap:16px;align-items:center;justify-content:center;padding:10px}
+    .topbar a{color:#d3d7dc;text-decoration:underline}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:40;background:rgba(15,16,18,.8);backdrop-filter:saturate(150%) blur(10px);border-bottom:1px solid var(--border)}
+    .nav{display:flex;align-items:center;gap:18px;padding:16px 0}
+    .brand{font-weight:800;font-size:1.25rem;letter-spacing:.2px}
+    .navlinks{display:flex;align-items:center;gap:18px}
+    .navlinks a{padding:8px 10px;border-radius:10px;color:#d5d9de}
+    .navlinks a:hover{background:var(--chip);color:#fff}
+    .search{flex:1;display:flex;align-items:center;gap:10px;max-width:520px;margin-left:auto}
+    .search input{flex:1;background:#0b0c0d;border:1px solid var(--border);color:#e8ebef;padding:10px 12px;border-radius:12px;outline:none}
+    .search input:focus{border-color:var(--accent); box-shadow:0 0 0 3px var(--ring)}
+    .icons{display:flex;gap:12px}
+    .iconbtn{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:#0b0c0d;border:1px solid var(--border);color:#d6dbe1}
+    .iconbtn:hover{border-color:#2a2d32}
+
+    /* Hero */
+    .hero{margin:24px 0}
+    .hero-grid{display:grid;grid-template-columns:260px 1fr;gap:20px}
+    .sidebar{background:#0b0c0d;border:1px solid var(--border);border-radius:16px;padding:14px}
+    .sidebar ul{list-style:none;margin:0;padding:0}
+    .sidebar li{padding:10px 8px;border-radius:10px;color:#cfd3d9}
+    .sidebar li:hover{background:var(--chip);color:#fff}
+
+    .carousel{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--border);background:#0b0c0d}
+    .slides{display:flex;scroll-snap-type:x mandatory;overflow:auto hidden}
+    .slide{min-width:100%;height:320px;position:relative;scroll-snap-align:start}
+    .slide img{object-fit:cover;width:100%;height:100%;opacity:.9}
+    .slide .label{position:absolute;inset:auto 0 0 0;padding:18px 22px;background:linear-gradient(180deg, transparent, rgba(0,0,0,.6));display:flex;justify-content:space-between;align-items:end}
+    .slide .label h3{margin:0;font-size:1.3rem}
+    .dots{position:absolute;inset:auto 0 14px 0;display:flex;gap:8px;justify-content:center}
+    .dot{width:8px;height:8px;border-radius:999px;background:#ffffff35}
+    .dot.active{background:#fff}
+
+    /* Section base */
+    section{margin:42px 0}
+    .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--accent);font-weight:600}
+    .eyebrow i{font-size:.8rem}
+    .section-title{font-size:1.4rem;font-weight:700}
+    .pill{border:1px solid var(--border);padding:10px 14px;border-radius:12px;background:#0b0c0d;color:#dbe0e6}
+
+    /* Product card */
+    .products{display:grid;grid-template-columns:repeat(5, 1fr);gap:16px}
+    .product{background:#0b0c0d;border:1px solid var(--border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+    .product .media{position:relative;background:#0e0f10;display:grid;place-items:center;aspect-ratio:1/1;border-bottom:1px solid var(--border)}
+    .badge{position:absolute;left:10px;top:10px;background:var(--accent);color:#fff;font-weight:600;font-size:.8rem;border-radius:999px;padding:6px 10px}
+    .wish{position:absolute;right:10px;top:10px;background:#0b0c0d;border:1px solid var(--border);border-radius:10px;width:36px;height:36px;display:grid;place-items:center;color:#fff}
+    .product .body{padding:14px;display:flex;flex-direction:column;gap:6px}
+    .product h4{margin:0;font-size:1rem}
+    .price{display:flex;gap:10px;align-items:center}
+    .price .now{color:#fff;font-weight:700}
+    .price .was{color:#8b9198;text-decoration:line-through}
+    .stars{color:var(--star);font-size:.9rem}
+    .meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+    .add{border:1px solid var(--border);padding:10px;border-radius:10px;background:#0b0c0d}
+    .add:hover{border-color:#2b2e33}
+
+    /* Category icons */
+    .categories{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+    .cat{background:#0b0c0d;border:1px solid var(--border);border-radius:16px;padding:18px;text-align:center}
+    .cat i{font-size:1.6rem;margin-bottom:10px}
+
+    /* Promos */
+    .promo{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+    .promo .big{position:relative;border:1px solid var(--border);border-radius:18px;overflow:hidden}
+    .promo .big img{height:100%;width:100%;object-fit:cover}
+    .promo .big .content{position:absolute;left:20px;bottom:20px}
+    .promo .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    .promo .tile{position:relative;border:1px solid var(--border);border-radius:18px;overflow:hidden}
+    .promo .tile img{width:100%;height:100%;object-fit:cover}
+    .promo .tile .content{position:absolute;left:16px;bottom:16px}
+
+    /* Feature list */
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .feature{background:#0b0c0d;border:1px solid var(--border);border-radius:16px;padding:18px;display:flex;gap:14px;align-items:center}
+
+    /* Footer */
+    footer{background:var(--surface);border-top:1px solid var(--border);margin-top:40px}
+    .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:20px;padding:40px 0}
+    footer h5{margin:.3rem 0 1rem 0}
+    footer ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+    .copyright{border-top:1px solid var(--border);padding:16px 0;color:#a0a6ad;text-align:center}
+
+    /* Utilities */
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#0b0c0d;color:#fff}
+    .btn.primary{background:var(--accent);border-color:transparent}
+    .btn.success{background:var(--accent-2);border-color:transparent}
+
+    /* Responsive */
+    @media (max-width: 1100px){
+      .products{grid-template-columns:repeat(4,1fr)}
+      .categories{grid-template-columns:repeat(4,1fr)}
+      .foot-grid{grid-template-columns:2fr 1fr 1fr}
+      .promo{grid-template-columns:1fr}
+    }
+    @media (max-width: 800px){
+      .hero-grid{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .products{grid-template-columns:repeat(2,1fr)}
+      .categories{grid-template-columns:repeat(3,1fr)}
+      .features{grid-template-columns:1fr}
+      .navlinks{display:none}
+    }
+    @media (max-width: 480px){
+      .products{grid-template-columns:1fr}
+      .categories{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+</head>
+<body>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="container row">
+      <span>Summer Sale For All Swim Suits And Free Express Delivery — OFF 50% &nbsp; <a href="#">ShopNow</a></span>
+      <span style="margin-left:auto">English ▾</span>
+    </div>
+  </div>
+
+  <!-- Header / Nav -->
+  <header>
+    <div class="container nav">
+      <div class="brand">Exclusive</div>
+      <nav class="navlinks">
+        <a href="#">Home</a>
+        <a href="#">Contact</a>
+        <a href="#">About</a>
+        <a href="#">SignUp</a>
+      </nav>
+
+      <div class="search">
+        <input type="search" placeholder="What are you looking for?" aria-label="Search" />
+        <button class="iconbtn" aria-label="Wishlist"><i class="fa-regular fa-heart"></i></button>
+        <button class="iconbtn" aria-label="Cart"><i class="fa-solid fa-cart-shopping"></i></button>
+        <button class="iconbtn" aria-label="Account"><i class="fa-regular fa-user"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="container hero">
+    <div class="hero-grid">
+      <aside class="sidebar">
+        <ul>
+          <li>Woman's Fashion</li>
+          <li>Men's Fashion</li>
+          <li>Electronics</li>
+          <li>Home & Lifestyle</li>
+          <li>Medicine</li>
+          <li>Sports & Outdoor</li>
+          <li>Baby's & Toys</li>
+          <li>Groceries & Pets</li>
+          <li>Health & Beauty</li>
+        </ul>
+      </aside>
+
+      <div class="carousel" id="heroCarousel">
+        <div class="slides">
+          <div class="slide">
+            <img src="https://picsum.photos/1200/500?random=1" alt="Promo 1" />
+            <div class="label"><h3>Up to 10% off Voucher</h3><a class="btn primary" href="#">Shop Now</a></div>
+          </div>
+          <div class="slide">
+            <img src="https://picsum.photos/1200/500?random=2" alt="Promo 2" />
+            <div class="label"><h3>New Collections</h3><a class="btn" href="#">Explore</a></div>
+          </div>
+          <div class="slide">
+            <img src="https://picsum.photos/1200/500?random=3" alt="Promo 3" />
+            <div class="label"><h3>Member Exclusive Deals</h3><a class="btn success" href="#">Join Now</a></div>
+          </div>
+        </div>
+        <div class="dots" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Flash Sales -->
+  <section class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow"><i class="fa-solid fa-square"></i> Today's</div>
+        <div class="section-title">Flash Sales</div>
+      </div>
+      <div class="pill"><span id="countdown">03 : 23 : 19 : 56</span></div>
+    </div>
+
+    <div class="products">
+      <!-- product x5 -->
+      <article class="product">
+        <div class="media"><img src="https://picsum.photos/400?random=4" alt="Gamepad"><span class="badge">-40%</span><button class="wish" aria-label="Wish"><i class="fa-regular fa-heart"></i></button></div>
+        <div class="body">
+          <h4>HAVIT HV-G92 Gamepad</h4>
+          <div class="price"><span class="now">$120</span><span class="was">$160</span></div>
+          <div class="stars">★★★★★ <span style="color:#8b9198">(88)</span></div>
+          <div class="meta"><button class="add">Add To Cart</button><i class="fa-regular fa-eye"></i></div>
+        </div>
+      </article>
+      <article class="product">
+        <div class="media"><img src="https://picsum.photos/400?random=5" alt="Keyboard"><span class="badge">-33%</span><button class="wish" aria-label="Wish"><i class="fa-regular fa-heart"></i></button></div>
+        <div class="body">
+          <h4>AK-900 Wired Keyboard</h4>
+          <div class="price"><span class="now">$960</span><span class="was">$1160</span></div>
+          <div class="stars">★★★★☆ <span style="color:#8b9198">(75)</span></div>
+          <div class="meta"><button class="add">Add To Cart</button><i class="fa-regular fa-eye"></i></div>
+        </div>
+      </article>
+      <article class="product">
+        <div class="media"><img src="https://picsum.photos/400?random=6" alt="Monitor"><span class="badge">-28%</span><button class="wish" aria-label="Wish"><i class="fa-regular fa-heart"></i></button></div>
+        <div class="body">
+          <h4>IPS LCD Gaming Monitor</h4>
+          <div class="price"><span class="now">$370</span><span class="was">$400</span></div>
+          <div class="stars">★★★★★ <span style="color:#8b9198">(99)</span></div>
+          <div class="meta"><button class="add">Add To Cart</button><i class="fa-regular fa-eye"></i></div>
+        </div>
+      </article>
+      <article class="product">
+        <div class="media"><img src="https://picsum.photos/400?random=7" alt="Chair"><span class="badge">-12%</span><button class="wish" aria-label="Wish"><i class="fa-regular fa-heart"></i></button></div>
+        <div class="body">
+          <h4>S-Series Comfort Chair</h4>
+          <div class="price"><span class="now">$375</span><span class="was">$400</span></div>
+          <div class="stars">★★★★☆ <span style="color:#8b9198">(65)</span></div>
+          <div class="meta"><button class="add">Add To Cart</button><i class="fa-regular fa-eye"></i></div>
+        </div>
+      </article>
+      <article class="product">
+        <div class="media"><img src="https://picsum.photos/400?random=8" alt="Chair"><span class="badge">-18%</span><button class="wish" aria-label="Wish"><i class="fa-regular fa-heart"></i></button></div>
+        <div class="body">
+          <h4>Comfort Chair</h4>
+          <div class="price"><span class="now">$200</span><span class="was">$245</span></div>
+          <div class="stars">★★★☆☆ <span style="color:#8b9198">(25)</span></div>
+          <div class="meta"><button class="add">Add To Cart</button><i class="fa-regular fa-eye"></i></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow"><i class="fa-solid fa-square"></i> Categories</div>
+        <div class="section-title">Browse By Category</div>
+      </div>
+      <button class="btn">View All</button>
+    </div>
+    <div class="categories">
+      <div class="cat"><i class="fa-solid fa-house"></i><div>Home</div></div>
+      <div class="cat"><i class="fa-solid fa-desktop"></i><div>Computers</div></div>
+      <div class="cat"><i class="fa-solid fa-mobile"></i><div>Smartphones</div></div>
+      <div class="cat"><i class="fa-solid fa-camera"></i><div>Cameras</div></div>
+      <div class="cat"><i class="fa-solid fa-headphones"></i><div>Headphones</div></div>
+      <div class="cat"><i class="fa-solid fa-gamepad"></i><div>Gaming</div></div>
+    </div>
+  </section>
+
+  <!-- Best Selling -->
+  <section class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow"><i class="fa-solid fa-square"></i> This Month</div>
+        <div class="section-title">Best Selling Products</div>
+      </div>
+      <button class="btn primary">View All</button>
+    </div>
+    <div class="products">
+      <!-- 4 items -->
+      <article class="product">
+        <div class="media"><img src="https://picsum.photos/400?random=9" alt="Coat"></div>
+        <div class="body">
+          <h4>The north coat</h4>
+          <div class="price"><span class="now">$360</span></div>
+          <div class="stars">★★★★★ <span style="color:#8b9198">(65)</span></div>
+        </div>
+      </article>
+      <article class="product">
+        <div class="media"><img src="https://picsum.photos/400?random=10" alt="Bag"></div>
+        <div class="body">
+          <h4>Gucci duffle bag</h4>
+          <div class="price"><span class="now">$960</span></div>
+          <div class="stars">★★★★★ <span style="color:#8b9198">(55)</span></div>
+        </div>
+      </article>
+      <article class="product">
+        <div class="media"><img src="https://picsum.photos/400?random=11" alt="Cooler"></div>
+        <div class="body">
+          <h4>RGB liquid CPU Cooler</h4>
+          <div class="price"><span class="now">$170</span></div>
+          <div class="stars">★★★★☆ <span style="color:#8b9198">(35)</span></div>
+        </div>
+      </article>
+      <article class="product">
+        <div class="media"><img src="https://picsum.photos/400?random=12" alt="Desk"></div>
+        <div class="body">
+          <h4>Small bookshelf</h4>
+          <div class="price"><span class="now">$360</span></div>
+          <div class="stars">★★★★★ <span style="color:#8b9198">(65)</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Big Promo Row -->
+  <section class="container">
+    <div class="promo">
+      <div class="big">
+        <img src="https://picsum.photos/900/380?random=13" alt="Speaker Promo">
+        <div class="content">
+          <div class="eyebrow" style="color:#22c55e">Categories</div>
+          <h2 style="margin:.2rem 0 1rem 0">Enhance Your Music Experience</h2>
+          <a class="btn primary" href="#">Buy Now</a>
+        </div>
+      </div>
+      <div class="grid">
+        <a class="tile" href="#"><img src="https://picsum.photos/500/180?random=14" alt="Women"><div class="content"><h4>Women's Collections</h4><p>Featured collections</p></div></a>
+        <a class="tile" href="#"><img src="https://picsum.photos/500/180?random=15" alt="Playstation"><div class="content"><h4>PlayStation 5</h4><p>Black and White</p></div></a>
+        <a class="tile" href="#"><img src="https://picsum.photos/500/180?random=16" alt="Speakers"><div class="content"><h4>Speakers</h4><p>Amazon wireless speakers</p></div></a>
+        <a class="tile" href="#"><img src="https://picsum.photos/500/180?random=17" alt="Perfume"><div class="content"><h4>Perfume</h4><p>GUCCI INTENSE OUD</p></div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Explore Products -->
+  <section class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow"><i class="fa-solid fa-square"></i> Our Products</div>
+        <div class="section-title">Explore Our Products</div>
+      </div>
+      <button class="btn">View All Products</button>
+    </div>
+    <div class="products">
+      <!-- 10 products sample -->
+      ${Array.from({length:10}).map((_,i)=>`<article class='product'>
+        <div class='media'><img src='https://picsum.photos/400?random=${20+i}' alt='Item ${i+1}'><span class='badge' style='background: ${i%3===0?"var(--accent-2)":"var(--accent)"}'>${i%3===0?"NEW":"-25%"}</span><button class='wish' aria-label='Wish'><i class='fa-regular fa-heart'></i></button></div>
+        <div class='body'>
+          <h4>Product ${i+1}</h4>
+          <div class='price'><span class='now'>$${(100+i*7)}</span></div>
+          <div class='stars'>${"★★★★★".slice(0, 3 + (i%3))}☆ <span style='color:#8b9198'>(50)</span></div>
+          <div class='meta'><button class='add'>Add To Cart</button><i class='fa-regular fa-eye'></i></div>
+        </div>
+      </article>`).join('')}
+    </div>
+  </section>
+
+  <!-- Features Row -->
+  <section class="container">
+    <div class="features">
+      <div class="feature"><i class="fa-solid fa-truck-fast"></i>
+        <div><h4 style="margin:0">Free and Fast Delivery</h4><div style="color:#b6bbc2">Free delivery for orders over $140</div></div>
+      </div>
+      <div class="feature"><i class="fa-regular fa-clock"></i>
+        <div><h4 style="margin:0">24/7 Customer Service</h4><div style="color:#b6bbc2">Friendly 24/7 customer support</div></div>
+      </div>
+      <div class="feature"><i class="fa-solid fa-shield"></i>
+        <div><h4 style="margin:0">Money Back Guarantee</h4><div style="color:#b6bbc2">We return money within 30 days</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container foot-grid">
+      <div>
+        <h3>Exclusive</h3>
+        <p>Get 10% off your first order</p>
+        <form class="search" onsubmit="event.preventDefault(); alert('Subscribed!')">
+          <input type="email" placeholder="Enter your email" required>
+          <button class="iconbtn" aria-label="Send"><i class="fa-regular fa-paper-plane"></i></button>
+        </form>
+      </div>
+      <div>
+        <h5>Support</h5>
+        <ul>
+          <li>111 Bijoy sarani, Dhaka</li>
+          <li>exclusive@gmail.com</li>
+          <li>+88015-88888-9999</li>
+        </ul>
+      </div>
+      <div>
+        <h5>Account</h5>
+        <ul>
+          <li>My Account</li>
+          <li>Login / Register</li>
+          <li>Cart</li>
+          <li>Wishlist</li>
+          <li>Shop</li>
+        </ul>
+      </div>
+      <div>
+        <h5>Quick Link</h5>
+        <ul>
+          <li>Privacy Policy</li>
+          <li>Terms Of Use</li>
+          <li>FAQ</li>
+          <li>Contact</li>
+        </ul>
+      </div>
+      <div>
+        <h5>Download App</h5>
+        <ul>
+          <li>Save $3 with App New User Only</li>
+          <li><img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://example.com" alt="QR"></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">© Copyright Exclusive 2025. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // --- Countdown (demo static to 03:23:19:56 like the mock) ---
+    // Example: set 4h from now
+    (function(){
+      const el = document.getElementById('countdown');
+      const end = Date.now() + 4*60*60*1000; // 4 hours
+      function pad(n){return String(n).padStart(2,'0')}
+      function tick(){
+        const t = Math.max(0, end - Date.now());
+        const d = Math.floor(t/86400000);
+        const h = Math.floor((t%86400000)/3600000);
+        const m = Math.floor((t%3600000)/60000);
+        const s = Math.floor((t%60000)/1000);
+        el.textContent = `${pad(d)} : ${pad(h)} : ${pad(m)} : ${pad(s)}`;
+        requestAnimationFrame(tick);
+      }
+      tick();
+    })();
+
+    // --- Hero carousel: auto + dots ---
+    (function(){
+      const wrap = document.getElementById('heroCarousel');
+      const scroller = wrap.querySelector('.slides');
+      const slides = Array.from(wrap.querySelectorAll('.slide'));
+      const dotsWrap = wrap.querySelector('.dots');
+      let idx = 0, auto;
+      slides.forEach((_,i)=>{
+        const d=document.createElement('span');
+        d.className='dot'+(i===0?' active':'');
+        d.addEventListener('click', ()=>go(i));
+        dotsWrap.appendChild(d);
+      });
+      function go(i){
+        idx = i;
+        scroller.scrollTo({left: scroller.clientWidth*i, behavior:'smooth'});
+        dotsWrap.querySelectorAll('.dot').forEach((el,di)=>el.classList.toggle('active', di===i));
+        restart();
+      }
+      function next(){ go((idx+1)%slides.length) }
+      function restart(){ clearInterval(auto); auto=setInterval(next, 4000) }
+      scroller.addEventListener('scroll', ()=>{
+        const i = Math.round(scroller.scrollLeft / scroller.clientWidth);
+        if(i!==idx){ idx=i; dotsWrap.querySelectorAll('.dot').forEach((el,di)=>el.classList.toggle('active', di===i)); }
+      });
+      restart();
+    })();
+
+    // --- Tiny add-to-cart demo ---
+    document.querySelectorAll('.add').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        btn.textContent = 'Added';
+        btn.style.background = 'var(--accent)';
+        btn.style.borderColor = 'transparent';
+      })
+    });
+  </script>
+</body>
+</html>
